@@ -1,0 +1,23 @@
+[
+ {
+    "id":"1",
+    "nombre":"Jaime Eduardo Grimaldo Moreno",
+    "cuatrimestre":"12",
+    "matricula":"191214",
+    "materia_favorita":"Inteligencia Artificial"
+ },
+ {
+    "id":"2",
+    "nombre":"Mauricio Matuz Tamayo",
+    "cuatrimestre":"12",
+    "matricula":"191209",
+    "materia_favorita":"Expresión Oral y Escrita II"
+ },
+ {
+    "id":"3",
+    "nombre":"Ana Sofia de la Cruz Navarro",
+    "cuatrimestre":"13",
+    "matricula":"183389",
+    "materia_favorita":"POO"
+ }
+]
