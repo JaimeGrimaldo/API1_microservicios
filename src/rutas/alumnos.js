@@ -2,8 +2,22 @@ const {Router, query} = require("express");
 const router = Router();
 const _ = require("underscore")
 const mysqlConnection = require("./database");
+const cors = require("cors");
 
-router.get("/",(req,res) => { 
+router.use(cors())
+
+router.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method"
+    );
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
+    next();
+  });
+
+router.get("/usuarios",(req,res, next) => { 
     mysqlConnection.query("SELECT * FROM alumnos", (err, rows, fields) => {
         if (!err) {
             res.json(rows);
@@ -13,7 +27,7 @@ router.get("/",(req,res) => {
     });
 });
 
-router.get("/:id",(req,res) => {
+router.get("/:id",(req,res , next) => {
     const {id} = req.params;
     mysqlConnection.query("SELECT * FROM alumnos WHERE id = ?", [id],(err, rows, fields) => {
         if (!err) {
@@ -24,7 +38,7 @@ router.get("/:id",(req,res) => {
     });
 });
 
-router.post("/",(req,res) => {
+router.post("/registro/:nombre/:matricula",(req,res, next) => {
     const {id, nombre, matricula} = req.body;
     const query = "call AlumnosAddOrEdit2 (?)";
     mysqlConnection.query("insert into alumnos values (?,?,?)",[id,nombre,matricula]), (err,result,fields) => {
@@ -38,7 +52,7 @@ router.post("/",(req,res) => {
 });
 
 
-router.put("/:id",(req,res) => {
+router.put("/:id",(req,res, next) => {
     const {nombre, matricula} = req.body;
     const {id} = req.params;
     const query = "call AlumnosAddOrEdit2 (?,?,?)"
@@ -51,7 +65,7 @@ router.put("/:id",(req,res) => {
     });
 });
 
-router.delete("/:id",(req,res) => {
+router.delete("/:id",(req,res, next) => {
     const {id} = req.params;
     mysqlConnection.query("delete from alumnos where id = ?",[id],(err,result,fields) => {
         if(!err) {
